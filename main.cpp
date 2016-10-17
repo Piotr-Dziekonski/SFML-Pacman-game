@@ -5,154 +5,72 @@
 #include <fstream>
 #include <cctype>
 #include <string>
+#include "map.h"
+#include "player.h"
+#include "window.h"
 
-//#include "tilemap.hpp"
-enum pressedKey
-{
-    left,
-    right,
-    up,
-    down,
-    none
-};
 int main()
 {
-    // WINDOW
-    sf::RenderWindow appWindow( sf::VideoMode( 1280, 1024, 32 ), "Pacman" );
+    //SPRITESHEET
+    sf::Texture spriteSheet;
+    spriteSheet.loadFromFile("spriteSheet.png");
+
+    //SPRITES
+    sf::Sprite ghost;
+    sf::Sprite tileSprite;
+
+    //OBJECTS
+    Player pacman(spriteSheet, ghost, sf::IntRect( 0, 0, 64, 64 ), 32, 32);
+    Map map;
+
+    //WINDOW
+    Window appWindow("Pacman", 1280, 1024, 32);
+    appWindow.setFramerateLimit(60);
     appWindow.setVerticalSyncEnabled(true);
 
-    // IMAGES
-    sf::Texture spriteSheet;
-    sf::Texture tileTexture;
-    spriteSheet.loadFromFile( "spriteSheet.png" );
-    tileTexture.loadFromFile("tile.png");
-    // SPRITES
-    sf::Sprite ghostSprite;
-    ghostSprite.setTexture( spriteSheet );
-    ghostSprite.setTextureRect(sf::IntRect( 0, 0, 64, 64 ));
-    ghostSprite.setOrigin( 32, 32 );
-    ghostSprite.setPosition( 400, 300 );
-
-    sf::Sprite tile;
-    tile.setTexture(tileTexture);
-
-
-
-
-    while( appWindow.isOpen() )
+    while( appWindow.isOpen() ) //MAIN LOOP
     {
-        pressedKey key;
         sf::Event event;
         while( appWindow.pollEvent( event ) )
         {
-            if( event.type == sf::Event::Closed )
+            if( event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
             {
                 appWindow.close();
             }
-            if( event.type == sf::Event::KeyPressed )
+            else if( event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right)
             {
-                switch (event.key.code)
-                {
-                    case sf::Keyboard::Up:
-                        key = up;
-                        break;
-                    case sf::Keyboard::Left:
-                        key = left;
-                        break;
-                    case sf::Keyboard::Right:
-                        key = right;
-                        break;
-                    case sf::Keyboard::Down:
-                        key = down;
-                        break;
-                    case sf::Keyboard::Escape:
-                        appWindow.close();
-                        break;
-                    default:
-                        break;
-                }
+                pacman.chooseDirection("right");
+            }
+            else if( event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left)
+            {
+                pacman.chooseDirection("left");
+            }
+            else if( event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Up)
+            {
+                pacman.chooseDirection("up");
+            }
+            else if( event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Down)
+            {
+                pacman.chooseDirection("down");
             }
         }
-
-        switch (key)
-        {
-            case up:
-                ghostSprite.move( 0, -6 );
-                ghostSprite.setTextureRect(sf::IntRect( 132, 0, 64, 64 ));
-                break;
-            case left:
-                ghostSprite.move( -6, 0 );
-                ghostSprite.setTextureRect(sf::IntRect( 66, 0, 64, 64 ));
-                break;
-            case right:
-                ghostSprite.move( 6, 0 );
-                ghostSprite.setTextureRect(sf::IntRect( 0, 0, 64, 64 ));
-                break;
-            case down:
-                ghostSprite.move( 0, 6 );
-                ghostSprite.setTextureRect(sf::IntRect( 198, 0, 64, 64 ));
-                break;
-            default:
-                break;
-        }
-
-        // MAP GENERATION
+        pacman.move(4);
+        pacman.checkColAndMove(map.getTilemap(), 4);
 
         appWindow.clear( sf::Color::Black );
 
-        std::ifstream openfile("Map2.txt");
-        if(openfile.is_open())
-        {
-           std::string line;
-           int lineCount = 0;
-           while(std::getline(openfile, line))
-           {
-
-               for(int column = 0; column < line.length(); column++)
-               {
-                   if(line[column] == '1')
-                   {
-                       tile.setPosition(column * 32, lineCount * 32);
-                       appWindow.draw(tile);
-                       // COLLISION
-                       if(tile.getGlobalBounds().intersects(ghostSprite.getGlobalBounds()))
-                       {
-                            switch (key)
-                            {
-                                case up:
-                                    ghostSprite.move( 0, 6 );
-                                    break;
-                                case left:
-                                    ghostSprite.move( 6, 0 );
-                                    break;
-                                case right:
-                                    ghostSprite.move( -6, 0 );
-                                    break;
-                                case down:
-                                    ghostSprite.move( 0, -6 );
-                                    break;
-                                default:
-                                    break;
-                            }
-                       }
-                   }
-               }
-               lineCount++;
-            }
-
-        }
-
-
-        appWindow.draw( ghostSprite );
-        //generateMap(appWindow);
+        map.generate(appWindow, spriteSheet, 264); //298 - red tiles, 264 (default value) - blue tiles
+        pacman.draw(appWindow);
         appWindow.display();
-
-        sf::sleep(sf::microseconds(100));
+        sf::sleep(sf::microseconds(50));
     }
     return 0;
 }
 
-
-
-
+// TO DO
+// - make movement and collisions using classes
+// - make second map
+// - make player a pacman instead of ghost
+// - make ghosts with ai
+// - make player choose direction before hitting the wall
 

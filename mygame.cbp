@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="mojaGra" />
+		<Option title="myGame" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
@@ -54,8 +54,12 @@
 			<Add directory="D:/Projekty/Biblioteki/SFML-2.4.0/lib" />
 		</Linker>
 		<Unit filename="main.cpp" />
-		<Unit filename="tilemap.cpp" />
-		<Unit filename="tilemap.hpp" />
+		<Unit filename="map.cpp" />
+		<Unit filename="map.h" />
+		<Unit filename="player.cpp" />
+		<Unit filename="player.h" />
+		<Unit filename="window.cpp" />
+		<Unit filename="window.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

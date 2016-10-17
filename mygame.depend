@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1475879943 source:d:\projekty\moja gra\mojagra\main.cpp
+1476713938 source:d:\projekty\moja gra\mojagra\main.cpp
 	<SFML/Graphics.hpp>
 	<SFML/Window.hpp>
 	<SFML/System.hpp>
@@ -7,7 +7,9 @@
 	<fstream>
 	<cctype>
 	<string>
-	"tilemap.hpp"
+	"map.h"
+	"player.h"
+	"window.h"
 
 1470642836 d:\projekty\biblioteki\sfml-2.4.0\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -403,14 +405,46 @@
 	<cctype>
 	<string>
 
-1475863116 source:d:\projekty\moja gra\mojagra\tilemap.cpp
+1476185473 source:d:\projekty\moja gra\mojagra\tilemap.cpp
+	"tilemap.hpp"
+
+1476186419 d:\projekty\moja gra\mojagra\tilemap.hpp
 	<SFML/Graphics.hpp>
 	<iostream>
 	<fstream>
 	<cctype>
 	<string>
-	"tilemap.hpp"
 
-1475759196 d:\projekty\moja gra\mojagra\tilemap.hpp
+1476714771 source:d:\projekty\moja gra\mojagra\player.cpp
+	<SFML/Graphics.hpp>
+	"player.h"
+	"map.h"
+
+1476714771 d:\projekty\moja gra\mojagra\player.h
+	<SFML/Graphics.hpp>
+	<string>
+	"map.h"
+
+1476291052 d:\projekty\moja gra\mojagra\window.h
+	<SFML/Graphics.hpp>
+	<SFML/Window.hpp>
+	<string>
+
+1476291875 source:d:\projekty\moja gra\mojagra\window.cpp
+	<SFML/Graphics.hpp>
+	<SFML/Window.hpp>
+	<string>
+	"window.h"
+
+1476404985 source:d:\projekty\moja gra\mojagra\map.cpp
+	<SFML/Graphics.hpp>
+	<fstream>
+	<string>
+	"map.h"
+
+1476404978 d:\projekty\moja gra\mojagra\map.h
+	<SFML/Graphics.hpp>
+
+1476401230 d:\projekty\moja gra\mojagra\tile.h
 	<SFML/Graphics.hpp>
 
